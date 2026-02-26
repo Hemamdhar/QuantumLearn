@@ -4,6 +4,7 @@ from app.database import db
 from app.security import get_current_user
 from app.schemas import CourseResponse
 from typing import List
+from datetime import datetime
 
 router = APIRouter()
 
@@ -61,3 +62,26 @@ def get_my_courses(current_user: dict = Depends(get_current_user)):
         })
 
     return result
+@app.get("/enrolled-courses")
+async def get_enrolled_courses(current_user: dict = Depends(get_current_user)):
+
+    # Get user email from token
+    user_email = current_user["sub"]
+
+    # Find all enrollments for this user
+    enrollments = await db.enrollments.find({
+        "user_email": user_email
+    }).to_list(100)
+
+    course_ids = [enrollment["course_id"] for enrollment in enrollments]
+
+    # Fetch full course details
+    courses = await db.courses.find({
+        "_id": {"$in": course_ids}
+    }).to_list(100)
+
+    # Convert ObjectId to string
+    for course in courses:
+        course["_id"] = str(course["_id"])
+
+    return courses
