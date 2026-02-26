@@ -62,7 +62,7 @@ def get_my_courses(current_user: dict = Depends(get_current_user)):
         })
 
     return result
-@app.get("/enrolled-courses")
+@router.get("/enrolled-courses")
 async def get_enrolled_courses(current_user: dict = Depends(get_current_user)):
 
     # Get user email from token
