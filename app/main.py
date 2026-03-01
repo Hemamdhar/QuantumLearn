@@ -5,7 +5,7 @@ from app.routers import auth, courses, enrollment, payments, progress, admin
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
+    "http://localhost:3001",
     "https://quantumlearn-frontend.vercel.app",  # future production
 ]
 
