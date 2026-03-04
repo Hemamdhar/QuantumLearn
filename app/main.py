@@ -47,7 +47,7 @@ async def run_code(request: CodeRequest):
             ["python", temp_path],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10000
         )
 
         # Remove temp file
